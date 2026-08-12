@@ -1,0 +1,7 @@
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      - dependency-name: "Spectre.Console"  
