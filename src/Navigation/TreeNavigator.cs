@@ -10,7 +10,7 @@ namespace TreeCD.Navigation;
 public sealed class TreeNavigator
 {
     private readonly IFileSystem _fileSystem;
-    private readonly List<FileSystemNode> _visible = new();
+    private readonly List<FileSystemNode> _visible = [];
     private int _selectedIndex;
 
     public TreeNavigator(string rootPath, IFileSystem fileSystem)
