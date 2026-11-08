@@ -1,4 +1,3 @@
-using System.IO;
 using TreeCD.FileSystem;
 using TreeCD.Navigation;
 using Xunit;
