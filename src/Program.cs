@@ -1,5 +1,6 @@
-using System.IO;
+using CommandLine;
 using Spectre.Console;
+using System.IO;
 using TreeCD.CommandLine;
 using TreeCD.FileSystem;
 using TreeCD.Input;
@@ -13,87 +14,81 @@ public static class Program
     {
         Console.OutputEncoding = new System.Text.UTF8Encoding(false);
 
-        CommandLineOptions options;
-        try
-        {
-            options = CommandLineOptions.Parse(args);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine(ex.Message);
-            return 2;
-        }
-
-        if (options.ShowHelp)
-        {
-            CommandLineOptions.WriteHelp(Console.Out);
-            return 0;
-        }
-
-        if (options.ShowVersion)
-        {
-            var version = typeof(Program).Assembly.GetName().Version;
-            Console.WriteLine(version is null ? "treecd" : $"treecd {version}");
-            return 0;
-        }
-
-        var startPath = options.StartPath ?? Directory.GetCurrentDirectory();
-        try
-        {
-            startPath = Path.GetFullPath(startPath);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Invalid path: {ex.Message}");
-            return 2;
-        }
-
-        if (!Directory.Exists(startPath))
-        {
-            Console.Error.WriteLine($"Directory does not exist: {startPath}");
-            return 2;
-        }
-
-        IFileSystem fileSystem = new PhysicalFileSystem();
-        string? selectedPath;
-        try
-        {
-            selectedPath = TreeBrowser.Browse(startPath, fileSystem);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"treecd failed: {ex.Message}");
-            return 2;
-        }
-        finally
-        {
-            try
+        Parser.Default.ParseArguments<Options>(args)
+            .WithParsed(static options =>
             {
-                Console.ResetColor();
-            }
-            catch
-            {
-                // Best effort only.
-            }
-        }
+                if (options.Help)
+                {
+                }
 
-        if (selectedPath is null)
-        {
-            return 1;
-        }
+                if (options.Version)
+                {
+                    var version = typeof(Program).Assembly.GetName().Version;
+                    Console.WriteLine(version is null ? "treecd" : $"treecd {version}");
+                    Environment.Exit(0);
+                }
 
-        try
-        {
-            Directory.SetCurrentDirectory(selectedPath);
-            Environment.CurrentDirectory = selectedPath;
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Could not change directory: {ex.Message}");
-            return 2;
-        }
+                var startPath = options.StartPath ?? Directory.GetCurrentDirectory();
 
-        Console.WriteLine(selectedPath);
-        return 0;
+                try
+                {
+                    startPath = Path.GetFullPath(startPath);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"Invalid path: {ex.Message}");
+                    Environment.Exit(2);
+                }
+
+                if (!Directory.Exists(startPath))
+                {
+                    Console.Error.WriteLine($"Directory does not exist: {startPath}");
+                    Environment.Exit(2);
+                }
+
+                IFileSystem fileSystem = new PhysicalFileSystem();
+                string? selectedPath = null;
+                try
+                {
+                    selectedPath = TreeBrowser.Browse(startPath, fileSystem);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"treecd failed: {ex.Message}");
+                    Environment.Exit(2);
+                }
+                finally
+                {
+                    try
+                    {
+                        Console.ResetColor();
+                    }
+                    catch
+                    {
+                        // Best effort only.
+                    }
+                }
+
+                if (selectedPath is null)
+                {
+                    Environment.Exit(1);
+                }
+
+                try
+                {
+                    Directory.SetCurrentDirectory(selectedPath);
+                    Environment.CurrentDirectory = selectedPath;
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"Could not change directory: {ex.Message}");
+                    Environment.Exit(2);
+                }
+
+                Console.WriteLine(selectedPath);
+                Environment.Exit(0);
+            });
+
+        return -1;
     }
 }
