@@ -9,8 +9,10 @@ namespace TreeCD.FileSystem;
 /// <param name="IsReparsePoint">
 /// Whether the entry is a reparse point (symbolic link, junction, mount point, ...).
 /// </param>
-public sealed record FileSystemEntry(
+public sealed record FileSystemEntry
+(
     string Name,
     string FullPath,
     bool IsDirectory,
-    bool IsReparsePoint);
+    bool IsReparsePoint
+);
