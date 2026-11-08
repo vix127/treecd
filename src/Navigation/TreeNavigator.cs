@@ -16,9 +16,11 @@ public sealed class TreeNavigator
     public TreeNavigator(string rootPath, IFileSystem fileSystem)
     {
         _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
-        Root = new FileSystemNode(rootPath, isDirectory: true, isReparsePoint: false);
-        Root.IsExpanded = true;
-        Root.IsLoaded = true;
+        Root = new FileSystemNode(rootPath, isDirectory: true, isReparsePoint: false)
+        {
+            IsExpanded = true,
+            IsLoaded = true
+        };
 
         LoadChildren(Root);
         RebuildVisible();
