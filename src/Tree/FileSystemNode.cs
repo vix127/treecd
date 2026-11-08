@@ -8,7 +8,7 @@ namespace TreeCD.Tree;
 /// </summary>
 public sealed class FileSystemNode
 {
-    private readonly List<FileSystemNode> _children = new();
+    private readonly List<FileSystemNode> _children = [];
 
     public FileSystemNode(
         string fullPath,
