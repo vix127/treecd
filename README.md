@@ -1,5 +1,9 @@
 # treecd
 
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/vix127/treecd" alt="License">
+  </a>
+
 An interactive, tree-style directory browser. Start it in any directory, navigate
 the file system with the arrow keys, and select the directory you want to switch to.
 
