@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
     <PackageReference Include="Spectre.Console" Version="0.57.2" />
   </ItemGroup>
 
