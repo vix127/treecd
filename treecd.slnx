@@ -2,4 +2,7 @@
   <Folder Name="/src/">
     <Project Path="src/Treecd.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Treecd.Tests.csproj" />
+  </Folder>
 </Solution>
