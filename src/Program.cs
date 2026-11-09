@@ -99,21 +99,22 @@ public static class Program
         return -1;
     }
 
-    private static void WriteHelp()
-    {
-        Console.WriteLine("Usage: treecd [DIRECTORY]");
-        Console.WriteLine();
-        Console.WriteLine("Browse DIRECTORY (or the current directory) as an expandable tree.");
-        Console.WriteLine();
-        Console.WriteLine("Options:");
-        Console.WriteLine("  -h, --help       Show this help text.");
-        Console.WriteLine("  -v, --version    Show the version.");
-        Console.WriteLine();
-        Console.WriteLine("Keys:");
-        Console.WriteLine("  Up/Down          Move the selection.");
-        Console.WriteLine("  Right            Expand a directory.");
-        Console.WriteLine("  Left             Collapse a directory.");
-        Console.WriteLine("  Enter            Select the highlighted directory and exit.");
-        Console.WriteLine("  Esc or Q         Cancel without changing directory.");
-    }
+    private const string HelpText = """
+        Usage: treecd [DIRECTORY]
+
+        Browse DIRECTORY (or the current directory) as an expandable tree.
+
+        Options:
+          -h, --help       Show this help text.
+          -v, --version    Show the version.
+
+        Keys:
+          Up/Down          Move the selection.
+          Right            Expand a directory.
+          Left             Collapse a directory.
+          Enter            Select the highlighted directory and exit.
+          Esc or Q         Cancel without changing directory.
+        """;
+
+    private static void WriteHelp() => Console.WriteLine(HelpText);
 }
